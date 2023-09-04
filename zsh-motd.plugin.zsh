@@ -25,16 +25,17 @@ fortune_text() {
 print_header() {
     # Custom message
     if [ ! -z ${ZSH_MOTD_CUSTOM+x} ]; then
-        echo $ZSH_MOTD_CUSTOM |
-        ( hash figlet 2>/dev/null && figlet || cat ) |
-        rainbow_dino
+      echo $ZSH_MOTD_CUSTOM |
+      ( hash figlet 2>/dev/null && figlet || cat ) |
+      rainbow_dino
 
     # Word of the day
     elif [ ! -z ${ZSH_MOTD_WOTD+x} ] && [ $PERL_INSTALLED -eq 1 ]; then
-        random_word |
-        ( hash figlet 2>/dev/null && figlet || cat ) |
-        rainbow_dino
-
+      random_word |
+      ( hash figlet 2>/dev/null && figlet || cat ) |
+      rainbow_dino
+    elif hash neofetch 2>/dev/null ; then
+      neofetch
     # Default
     else
         fortune_text | rainbow_dino
@@ -44,14 +45,15 @@ print_header() {
 # Linux MOTD - once a day
 if [ -d /etc/update-motd.d ] && [ ! -e "$HOME/.hushlogin" ] && [ -z "$MOTD_SHOWN" ] && ! find $stamp -newermt 'today 0:00' 2> /dev/null | grep -q -m 1 '.'; then
     [ $(id -u) -eq 0 ] || SHOW="--show-only"
-    update-motd $SHOW | rainbow_dino
+    update-motd $SHOW
     touch $stamp
     export MOTD_SHOWN=update-motd
 # ZSH MOTD - once every 3 hours
 elif [ ! -z ${ZSH_MOTD_ALWAYS+x} ] || ! find $stamp -mmin -179 2> /dev/null | grep -q -m 1 '.'; then
     print_header
     touch $stamp
-else
+elif [ $PERL_INSTALLED -eq 1 ]; then
     echo
-    random_word | ( hash lolcat 2>/dev/null && lolcat || cat )
+    # random_word | ( hash lolcat 2>/dev/null && lolcat || cat )
+    fortune_text | ( hash figlet 2>/dev/null && figlet || cat )
 fi
