@@ -18,6 +18,11 @@ rainbow_dino() {
     ( hash lolcat 2>/dev/null && lolcat || cat )
 }
 
+rainbow_dragon() {
+    ( hash cowsay 2>/dev/null && cowsay -n -f stegosaurus || cat ) |
+    ( hash lolcat 2>/dev/null && lolcat || cat )
+}
+
 fortune_text() {
     ( hash fortune 2>/dev/null && fortune || printf "Hey $USER\n" )
 }
@@ -38,7 +43,7 @@ print_header() {
       neofetch
     # Default
     else
-        fortune_text | rainbow_dino
+        fortune_text | rainbow_dragon
     fi
 }
 
@@ -55,5 +60,5 @@ elif [ ! -z ${ZSH_MOTD_ALWAYS+x} ] || ! find $stamp -mmin -179 2> /dev/null | gr
 elif [ $PERL_INSTALLED -eq 1 ]; then
     echo
     # random_word | ( hash lolcat 2>/dev/null && lolcat || cat )
-    fortune_text | ( hash figlet 2>/dev/null && figlet || cat )
+    fortune_text | rainbow_dragon
 fi
