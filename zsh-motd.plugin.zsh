@@ -19,7 +19,7 @@ rainbow_dino() {
 }
 
 rainbow_dragon() {
-    ( hash cowsay 2>/dev/null && cowsay -n -f stegosaurus || cat ) |
+    ( hash cowsay 2>/dev/null && cowsay -n -f dragon || cat ) |
     ( hash lolcat 2>/dev/null && lolcat || cat )
 }
 
