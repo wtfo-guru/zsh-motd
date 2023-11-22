@@ -1,7 +1,8 @@
 # Bash / Ubuntu MOTD for Zsh, but cooler
 # This script is partly based on the default /etc/profile.d/update-motd.sh found in Ubuntu 20.04.
 
-stamp="$HOME/.motd_shown"
+stamp="${HOME}/.motd_shown"
+always="${HOME}/.update-mode.always"
 
 # Make sure perl is installed. It usually is, but just in case
 PERL_INSTALLED=0
@@ -51,8 +52,10 @@ print_header() {
 if [ -d /etc/update-motd.d ] && [ ! -e "$HOME/.hushlogin" ] && [ -z "$MOTD_SHOWN" ] && ! find $stamp -newermt 'today 0:00' 2> /dev/null | grep -q -m 1 '.'; then
     [ $(id -u) -eq 0 ] || SHOW="--show-only"
     update-motd $SHOW
-    touch $stamp
-    export MOTD_SHOWN=update-motd
+    if [ ! -e "$always" ]; then
+      touch $stamp
+      export MOTD_SHOWN=update-motd
+    fi
 # ZSH MOTD - once every 3 hours
 elif [ ! -z ${ZSH_MOTD_ALWAYS+x} ] || ! find $stamp -mmin -179 2> /dev/null | grep -q -m 1 '.'; then
     print_header
