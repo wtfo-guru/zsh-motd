@@ -42,7 +42,7 @@ print_header() {
       ( hash figlet 2>/dev/null && figlet || cat ) |
       rainbow_dino
     elif hash fastfetch 2>/dev/null ; then
-      fastfetch
+      fastfetch --localip-show-ipv6
     elif hash neofetch 2>/dev/null ; then
       neofetch
     # Default
